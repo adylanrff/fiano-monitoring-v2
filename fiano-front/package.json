@@ -1,0 +1,26 @@
+{
+  "name": "nextjs",
+  "version": "4.0.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "latest",
+    "@material-ui/icons": "^4.11.2",
+    "clsx": "latest",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "next": "latest",
+    "prop-types": "latest",
+    "react": "latest",
+    "react-big-calendar": "^0.32.0",
+    "react-big-scheduler": "^0.2.7",
+    "react-dnd": "^7.7.0",
+    "react-dnd-html5-backend": "^7.7.0",
+    "react-dom": "latest"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  }
+}

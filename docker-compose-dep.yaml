@@ -1,0 +1,13 @@
+version: '3'
+services:
+  
+  postgres:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - /lib/postgres/postgres-data:/var/lib/postgresql/data
+      - ../db:/docker-entrypoint-initdb.d/  
+      - .:/src/
+    env_file: 
+      - .env
