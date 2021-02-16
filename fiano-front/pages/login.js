@@ -1,4 +1,5 @@
-import { Paper, Typography, Box, Container, FormGroup, Input, TextField, Grid, Button } from "@material-ui/core";
+import { Paper, Typography, Box, Container,TextField, Grid, Button } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import Router from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Base from "../src/components/Base";
@@ -9,7 +10,7 @@ export default function LoginPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const { user, login } = useContext(authContext)
+    const { user, login, error } = useContext(authContext)
 
     const handleLogin = () => {
         login(username, password)
@@ -26,6 +27,7 @@ export default function LoginPage() {
             <Container disableGutters maxWidth="xs">
                 <Paper elevation={4}>
                     <Box p={4}>
+                        {error && <Alert severity="error">{error}</Alert>}
                         <Box my={2}>
                             <Typography component="h1" variant="h4" align="center">Login</Typography>
                             <Box mt={2}>

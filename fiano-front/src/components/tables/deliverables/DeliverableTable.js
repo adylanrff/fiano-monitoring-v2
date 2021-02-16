@@ -2,17 +2,18 @@ import { LinearProgress } from "@material-ui/core";
 import BaseTable from "../BaseTable";
 import DeliverableRow from "./DeliverableRow";
 
-const PROJECT_COLUMNS = ['Nama Proyek', 'Status Proyek', 'Jadwal Mulai', 'Deadline', '']
+const DELIVERABLE_COLUMNS = ['Nama', 'Pekerja','Tahap Pengerjaan', 'Waktu Mulai', 'Waktu Selesai', '']
 
-export default function ProjectTable({ isLoading, deliverables }) {
+export default function DeliverableTable({ isLoading, deliverables, onRowClick }) {
     
     return (
         <>
             {isLoading && (<LinearProgress />)}
-            {!isLoading && !error && (  
+            {!isLoading && (  
                 <BaseTable
                     size="small"
-                    columns={PROJECT_COLUMNS} 
+                    onRowClick={onRowClick}
+                    columns={DELIVERABLE_COLUMNS} 
                     data={deliverables} 
                     RowComponent={DeliverableRow} 
                 />

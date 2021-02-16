@@ -8,7 +8,7 @@ import Paper from "@material-ui/core/Paper";
 
 export default function BaseTable(props) {
 
-    const { columns, data, RowComponent, size } = props
+    const { columns, data, RowComponent, size, onRowClick } = props
 
     return (
         <TableContainer component={Paper}>
@@ -20,7 +20,7 @@ export default function BaseTable(props) {
                 </TableHead>
                 <TableBody>
                     {data && data.map(((row, id) => (
-                        <RowComponent key={id} data={row} />
+                        <RowComponent onRowClick={onRowClick} key={id} data={row} />
                     )))}
                 </TableBody>
             </Table>

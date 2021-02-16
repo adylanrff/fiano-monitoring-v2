@@ -17,7 +17,6 @@ export function DeliverableEvent({ event }) {
 }
 
 export function deliverableEventStyleGetter(event, start, end, isSelected) {
-    console.log(event.title)
     var backgroundColor = event.hexColor ? '#' + event.hexColor : "#ffffff";
     var style = {
         backgroundColor: backgroundColor,

@@ -33,7 +33,7 @@ export function useAuth() {
         if (!token) {
             setToken(window.localStorage.getItem('jwt_token'))
         } else {
-            getUser(token).then((user) => handleSetUser({ ...user, token })).catch(e => console.log(e.message))
+            getUser(token).then((user) => handleSetUser({ ...user, token })).catch((e) => setError(e))
         }
     }, [token])
 

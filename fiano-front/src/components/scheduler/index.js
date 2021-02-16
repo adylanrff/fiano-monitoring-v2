@@ -27,10 +27,6 @@ function deliverableToEvent(deliverables) {
 
 function ProjectScheduler({ deliverables }) {
     
-    useEffect(() => {
-        console.log(deliverableToEvent(deliverables))
-    }, [])
-
     return (
         <BigCalendar
             popup
@@ -42,8 +38,6 @@ function ProjectScheduler({ deliverables }) {
             endAccessor="end"
             onEventDrop={() => { }}
             resizable
-            scrollToTime
-            onShowMore={(events, date) => console.log(date)}
             defaultDate={moment().toDate()}
             defaultView='month'
             components={{

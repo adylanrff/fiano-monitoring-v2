@@ -29,17 +29,18 @@ export function useDataFetching(url) {
     const [results, setResults] = useState([]);
     const [error, setError] = useState("");
     const token = window.localStorage.getItem('jwt_token')
-
+    const headers = token ? {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    } : {}
     useEffect(() => {
         async function fetchData() {
             try {
-                const data = await fetch(url, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    } 
-                });
+                const data = await fetch(url, headers);
                 const json = await data.json();
                 if (json) {
+                    console.log(json)
                     setLoading(false);
                     setResults(toCamel(json));
                 }

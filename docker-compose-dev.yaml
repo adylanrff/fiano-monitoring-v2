@@ -28,7 +28,9 @@ services:
     restart: always
     depends_on:
       - backend
-    build: fiano-front
+    build:
+      context: fiano-front
+      dockerfile:  Dockerfile
     ports: 
       - "3000:3000"
     command: npm run dev 

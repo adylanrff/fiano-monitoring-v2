@@ -27,7 +27,6 @@ class GetUserByTokenView(views.APIView):
     serializer_class = UserSerializer
 
     def get(self, request):
-        print(request)
         user = { 
             'id': request.user.id,
             'username': request.user.username,

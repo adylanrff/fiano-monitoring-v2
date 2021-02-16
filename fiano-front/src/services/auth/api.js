@@ -19,7 +19,9 @@ export function login(username, password) {
             if (response.ok) {
                 return response.json();
             } else {
-                throw new Error(response.statusText);
+                return response.json().then((data) => {
+                    throw new Error(data.detail)
+                })
             }
         })
         .then((json) => toCamel(json))

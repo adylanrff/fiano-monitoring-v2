@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from "react";
 import moment from 'moment';
-import { Box, Card, Collapse, Divider, Grid, Container, IconButton, LinearProgress, Typography } from "@material-ui/core";
+import { Box, Card, Collapse, Divider, Grid, Container, IconButton, LinearProgress, Typography, Paper } from "@material-ui/core";
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Tabs from '@material-ui/core/Tabs';
@@ -12,20 +12,30 @@ import ProjectScheduler from '../../src/components/scheduler'
 import { useProjectDetailData } from "../../src/services/project/useProject";
 import { getCurrency } from '../../src/services/util';
 import withAuthentication from '../../src/components/hoc/auth';
+import DeliverableTable from '../../src/components/tables/deliverables/DeliverableTable';
+import DeliverableModal from '../../src/components/modal/deliverable';
 
 
 function ProjectDetailPage() {
     const router = useRouter()
     const { id } = router.query
 
-    const [openCalendar, setOpenCalendar] = useState(false)
+    const [openCalendar, setOpenCalendar] = useState(true)
     const [calendarHeight, setCalendarHeight] = useState('100vh')
     const [tabValue, setTabValue] = useState(0)
-
     const [error, isLoading, project] = useProjectDetailData(id)
+    const [modalDeliverable, setModalDeliverable] = useState(null)
 
     const toggleCalendar = () => {
         setOpenCalendar(!openCalendar)
+    }
+
+    const onDeliverableRowClick = (deliverable) => {
+        setModalDeliverable(deliverable)
+    }
+
+    const onCloseModal = () => {
+        setModalDeliverable(null)
     }
 
     const getCalendarHeight = (deliverables) => {
@@ -45,17 +55,15 @@ function ProjectDetailPage() {
 
     return (
         <Base title="Detail Proyek">
-            <Container>
-                <Grid container spacing={3}>
+            <Container maxWidth="lg">
+                <DeliverableModal open={Boolean(modalDeliverable)} onClose={onCloseModal} deliverable={modalDeliverable} />
+                <Grid container spacing={3} alignItems="stretch">
                     <Grid item xs={12} md={4} lg={3}>
-                        <ProjectSummary isLoading={isLoading} error={error} project={project} />
+                        <Paper>
+                            <ProjectSummary isLoading={isLoading} error={error} project={project} />
+                        </Paper>
                     </Grid>
                     <Grid item xs={12} md={8} lg={9}>
-                        <Card elevation={2} style={{ minHeight: '30vh' }}>
-                            Test
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12}>
                         <Card>
                             <Box>
                                 <IconButton onClick={toggleCalendar}>
@@ -66,20 +74,22 @@ function ProjectDetailPage() {
                             <Collapse in={openCalendar}>
                                 <Card elevation={2}>
                                     <Tabs value={tabValue} onChange={handleDeliverableTabChange}>
-                                        <Tab label="Jadwal" />
                                         <Tab label="Tabel" />
+                                        <Tab label="Jadwal" />
                                     </Tabs>
                                 </Card>
                                 <Card style={{ overflowX: "scroll" }}>
                                     {tabValue == 0 && (
+                                        <>
+                                            <Box mt={2}>
+                                                <DeliverableTable onRowClick={onDeliverableRowClick} isLoading={isLoading} deliverables={project && project.deliverables || []} />
+                                            </Box>
+                                        </>
+                                    )}
+                                    {tabValue == 1 && (
                                         <Box mt={2} style={{ height: calendarHeight, minWidth: 600, overflowX: "scroll" }}>
                                             <ProjectScheduler deliverables={project && project.deliverables || []} />
                                         </Box>
-                                    )
-                                    }
-                                    {tabValue == 1 && (
-                                        <>
-                                        </>
                                     )}
                                 </Card>
                             </Collapse>
@@ -117,6 +127,10 @@ function ProjectSummary({ error, project, isLoading }) {
                             <Grid item xs={12}>
                                 <Typography component="h5" variant="subtitle" color="textSecondary">Nilai Proyek</Typography>
                                 <Typography component="h2" variant="body1">{getCurrency(project && project.projectValue)}</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography component="h5" variant="subtitle" color="textSecondary">Progress</Typography>
+                                <Typography component="h2" variant="body1">{project && project.progress}%</Typography>
                             </Grid>
                         </Grid>
                     </Box>

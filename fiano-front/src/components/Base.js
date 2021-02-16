@@ -39,7 +39,7 @@ export default function Base({ title, children }) {
             <HomeDrawer open={open} handleClose={handleDrawerClose} />
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Container disableGutters className={classes.container}>
+                <Container maxWidth="xl" disableGutters className={classes.container}>
                     {children}
                 </Container>
                 <Box py={4}>
